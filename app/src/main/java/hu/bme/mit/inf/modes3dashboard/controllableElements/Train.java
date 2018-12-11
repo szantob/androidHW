@@ -1,9 +1,18 @@
 package hu.bme.mit.inf.modes3dashboard.controllableElements;
 
+import android.arch.persistence.room.ColumnInfo;
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.PrimaryKey;
 
+@Entity(tableName = "trains")
 public class Train{
+
+    @ColumnInfo(name = "id")
+    @PrimaryKey(autoGenerate = true)
     private long id;
+    @ColumnInfo(name = "uid")
     private long uid;
+    @ColumnInfo(name = "name")
     private String name;
 
     public Train(){
@@ -15,12 +24,13 @@ public class Train{
         this.name=name;
     }
 
-    public void setId(long aLong) {
-        id=aLong;
-    }
 
     public long getId() {
         return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public long getUid() {

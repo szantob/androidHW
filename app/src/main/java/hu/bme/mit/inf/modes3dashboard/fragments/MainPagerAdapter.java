@@ -11,11 +11,17 @@ public class MainPagerAdapter extends FragmentPagerAdapter {
         super(fm);
     }
 
+    public MainPagerAdapter(FragmentManager supportFragmentManager, int tabCount) {
+        super(supportFragmentManager);
+    }
+
     @Override
     public Fragment getItem(int position) {
         switch (position) {
             case 0:
                 return new MainFragment();
+            case 1:
+                return  new TrainFragment();
             default:
                 return new MainFragment();
         }
