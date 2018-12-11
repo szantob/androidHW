@@ -3,6 +3,7 @@ package hu.bme.mit.inf.modes3dashboard.fragments;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -24,16 +25,13 @@ public class MainFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_main, container, false);
     }
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view,savedInstanceState);
 
-        TabLayout tabLayout = getActivity().findViewById(R.id.Tabs);
-        tabLayout.addTab(tabLayout.newTab().setText("Tab 1"));
-        tabLayout.addTab(tabLayout.newTab().setText("Tab 2"));
-        tabLayout.addTab(tabLayout.newTab().setText("Tab 3"));
+        TabLayout tabLayout = getView().findViewById(R.id.Tabs);
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
-        final ViewPager viewPager = (ViewPager) getActivity().findViewById(R.id.tabViewPager);
+        final ViewPager viewPager = (ViewPager) getView().findViewById(R.id.tabViewPager);
         final MainPagerAdapter adapter = new MainPagerAdapter
                 (getActivity().getSupportFragmentManager(), tabLayout.getTabCount());
         viewPager.setAdapter(adapter);

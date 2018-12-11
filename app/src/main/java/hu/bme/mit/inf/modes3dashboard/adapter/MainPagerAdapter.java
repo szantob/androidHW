@@ -21,7 +21,7 @@ public class MainPagerAdapter extends FragmentStatePagerAdapter {
 
         switch (position) {
             case 0:
-                return new TrainListFragment();
+                return new SectionListFragment(); //TODO
             case 1:
                 return new SectionListFragment();
             case 2:
