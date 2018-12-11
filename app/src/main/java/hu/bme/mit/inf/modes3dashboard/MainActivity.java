@@ -3,6 +3,7 @@ package hu.bme.mit.inf.modes3dashboard;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.content.Intent;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -13,6 +14,7 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import hu.bme.mit.inf.modes3dashboard.fragments.MainPagerAdapter;
 import hu.bme.mit.inf.modes3dashboard.settings.SettingsActivity;
 
 public class MainActivity extends AppCompatActivity {
@@ -23,6 +25,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        ViewPager vpProfile = findViewById(R.id.vpProfile);
+        vpProfile.setAdapter(new MainPagerAdapter(getSupportFragmentManager()));
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
