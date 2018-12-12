@@ -14,17 +14,17 @@
         <android.support.design.widget.TabItem
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Left" />
+            android:text="@string/trains" />
 
         <android.support.design.widget.TabItem
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Center" />
+            android:text="@string/sections" />
 
         <android.support.design.widget.TabItem
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Right" />
+            android:text="@string/turnouts" />
     </android.support.design.widget.TabLayout>
     <android.support.v4.view.ViewPager
         android:id="@+id/ListsFragmantPager"

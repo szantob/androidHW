@@ -14,6 +14,7 @@ public class DatabaseConnector {
     private static boolean initialized = false;
     private ModesDatabase database;
     private static DatabaseConnector instance;
+    private TrainDataReader reader;
     private DatabaseConnector(Context context){
         database = Room.databaseBuilder(context,ModesDatabase.class,"modesDatabase").build();
 
@@ -42,20 +43,22 @@ public class DatabaseConnector {
         }.execute();
     }
     public void loadTrains(TrainDataReader reader) {
-        new AsyncTask<TrainDataReader, Void, List<Train>>() {
-            TrainDataReader reader;
+        this.reader = reader;
+        new AsyncTask<Void, Void, List<Train>>() {
 
             @Override
-            protected List<Train> doInBackground(TrainDataReader... trainDataReaders) {
-                reader = trainDataReaders[0];
+            protected List<Train> doInBackground(Void... voids) {
                 return database.TrainDao().getAll();
             }
 
             @Override
             protected void onPostExecute(List<Train> trains) {
-                reader.getTrainData(trains);
+               returnTrains(trains);
             }
-        }.execute(reader);
+        }.execute();
+    }
+    private void returnTrains(List<Train> trains){
+        reader.getTrainData(trains);
     }
     public interface TrainDataReader{
         public void getTrainData(List<Train> trains);

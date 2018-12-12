@@ -10,6 +10,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -24,9 +26,7 @@ public class TrainListFragment extends Fragment implements TrainClickListener, D
     private RecyclerView recyclerView;
 
     private DatabaseConnector connector;
-
     private static TrainAdapter adapter;
-    private static ModesDatabase database;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -37,23 +37,8 @@ public class TrainListFragment extends Fragment implements TrainClickListener, D
         DatabaseConnector.initialize(getActivity());
         connector = DatabaseConnector.getInstance();
 
-        database = Room.databaseBuilder(
-                getActivity().getApplicationContext(),
-                ModesDatabase.class,
-                "modesDatabase"
-        ).build();
-
-        //initDatabase();
         initRecyclerView(view);
         return view;
-    }
-
-    private void initDatabase(){
-        Train taurus = new Train();
-        taurus.modesId=12l;
-        taurus.name="Taurus";
-        connector.createTrain(taurus);
-        //onTrainCreated(taurus);
     }
 
     private void initRecyclerView(View view) {
@@ -65,42 +50,10 @@ public class TrainListFragment extends Fragment implements TrainClickListener, D
         recyclerView.setAdapter(adapter);
     }
 
-    /*@Deprecated
-    private void loadItemsInBackground() {
-        new AsyncTask<Void, Void, List<Train>>() {
-
-            @Override
-            protected List<Train> doInBackground(Void... voids) {
-                return database.TrainDao().getAll();
-            }
-
-            @Override
-            protected void onPostExecute(List<Train> trains) {
-                adapter.update(trains);
-            }
-        }.execute();
-    }*/
-
     @Override
     public void onItemChanged(Train train) {
 
     }
-    /*@Deprecated
-    public static void onTrainCreated(final Train newTrain) {
-        new AsyncTask<Void, Void, Train>() {
-
-            @Override
-            protected Train doInBackground(Void... voids) {
-                newTrain.id = database.TrainDao().insert(newTrain);
-                return newTrain;
-            }
-
-            @Override
-            protected void onPostExecute(Train train) {
-                adapter.addItem(train);
-            }
-        }.execute();
-    }*/
     @Override
     public void getTrainData(List<Train> trains) {
         adapter.update(trains);
@@ -124,6 +77,15 @@ public class TrainListFragment extends Fragment implements TrainClickListener, D
             View itemView = LayoutInflater
                     .from(parent.getContext())
                     .inflate(R.layout.train_list_element, parent, false);
+            LinearLayout container = itemView.findViewById(R.id.container);
+            container.setClickable(true);
+            container.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Long trainId = Long.decode(((TextView)view.findViewById(R.id.TrainIdTextView)).getText().toString());
+                    //TODO show fragment
+                }
+            });
             return new TrainViewHolder(itemView);
         }
 
@@ -131,7 +93,7 @@ public class TrainListFragment extends Fragment implements TrainClickListener, D
         public void onBindViewHolder(@NonNull TrainViewHolder holder, int position) {
             Train item = trains.get(position);
             holder.nameTextView.setText(item.name);
-            holder.idTextView.setText(Long.toString(item.modesId));
+            holder.idTextView.setText(/*Long.toString(item.modesId)*/"0");
             holder.statusTextView.setText("Disconnected");
 
             holder.item = item;

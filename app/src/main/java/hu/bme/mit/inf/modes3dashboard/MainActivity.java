@@ -33,7 +33,8 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                onFABPressed();
+                Intent intent = new Intent(MainActivity.this, RedButtonActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -43,10 +44,6 @@ public class MainActivity extends AppCompatActivity {
         mPager.setAdapter(mPagerAdapter);
     }
 
-    void onFABPressed(){
-        Intent intent = new Intent(MainActivity.this, RedButtonActivity.class);
-        startActivity(intent);
-    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
@@ -80,6 +77,10 @@ public class MainActivity extends AppCompatActivity {
             // Otherwise, select the previous step.
             mPager.setCurrentItem(mPager.getCurrentItem() - 1);
         }
+    }
+
+    public void showTrainData(Long id){
+        mPager.setCurrentItem(1);
     }
 
     private class MainPagerAdapter extends FragmentStatePagerAdapter {

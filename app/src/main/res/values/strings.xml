@@ -34,4 +34,7 @@
     <string name="_0">0</string>
     <string name="segmentname">segmentName</string>
     <string name="new_turnout">New turnout</string>
+    <string name="trains">Trains</string>
+    <string name="sections">Sections</string>
+    <string name="turnouts">Turnouts</string>
 </resources>
