@@ -1,9 +1,7 @@
 package hu.bme.mit.inf.modes3dashboard;
 
-import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -15,8 +13,11 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import hu.bme.mit.inf.modes3dashboard.fragments.ListsFragment;
+import hu.bme.mit.inf.modes3dashboard.fragments.TrainFragment;
+
 public class MainActivity extends AppCompatActivity {
-    private static final int NUM_PAGES = 5;
+    private static final int NUM_PAGES = 2;
     private ViewPager mPager;
     private PagerAdapter mPagerAdapter;
 
