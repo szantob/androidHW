@@ -27,14 +27,11 @@ public class ListsFragment extends Fragment {
         ViewGroup rootView = (ViewGroup) inflater.inflate(
                 R.layout.fragment_lists, container, false);
         TabLayout tabs = rootView.findViewById(R.id.ListsFragmantTabLayout);
-        tabs.addTab(tabs.newTab().setText("Tab 1"));
-        tabs.addTab(tabs.newTab().setText("Tab 2"));
-        tabs.addTab(tabs.newTab().setText("Tab 3"));
         tabs.setTabGravity(TabLayout.GRAVITY_FILL);
 
         // Instantiate a ViewPager and a PagerAdapter.
         mPager = (ViewPager) rootView.findViewById(R.id.ListsFragmantPager);
-        mPagerAdapter = new PagerAdapter(getChildFragmentManager());
+        mPagerAdapter = new PagerAdapter(getFragmentManager());
         mPager.setAdapter(mPagerAdapter);
 
 
