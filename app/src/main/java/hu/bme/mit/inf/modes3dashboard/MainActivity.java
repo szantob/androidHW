@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
         mPager.setAdapter(mPagerAdapter);
     }
 
-    private void onFABPressed(){
+    void onFABPressed(){
         Intent intent = new Intent(MainActivity.this, RedButtonActivity.class);
         startActivity(intent);
     }
@@ -56,9 +56,15 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
-            startActivity(intent);
+        switch(id){
+            default:
+            case R.id.action_settings:
+                startActivity(new Intent(MainActivity.this, SettingsActivity.class));
+                break;
+            case R.id.action_newElement:
+                startActivity(new Intent(MainActivity.this, NewElementActivity.class));
+                break;
+
         }
 
         return super.onOptionsItemSelected(item);
