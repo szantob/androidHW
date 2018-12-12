@@ -24,4 +24,14 @@
     <string name="MQTTSubTpoic">MQTTSubTpoic</string>
     <string name="MQTTPubTpoic">MQTTPubTpoic</string>
     <string name="MQTTPubName">MQTTPubName</string>
+    <string name="snackbar_SaveServerSettings">Server settings saved</string>
+    <string name="snackbar_SaveSettings">Settings saved</string>
+    <string name="action">Action</string>
+    <string name="new_train">New train</string>
+    <string name="Name">Name</string>
+    <string name="trainname">trainName</string>
+    <string name="id">ID:</string>
+    <string name="_0">0</string>
+    <string name="segmentname">segmentName</string>
+    <string name="new_turnout">New turnout</string>
 </resources>

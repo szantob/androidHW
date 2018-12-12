@@ -16,14 +16,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 import hu.bme.mit.inf.modes3dashboard.R;
+import hu.bme.mit.inf.modes3dashboard.data.DatabaseConnector;
 import hu.bme.mit.inf.modes3dashboard.data.ModesDatabase;
 import hu.bme.mit.inf.modes3dashboard.data.Train;
 
-public class TrainListFragment extends Fragment implements TrainClickListener {
+public class TrainListFragment extends Fragment implements TrainClickListener, DatabaseConnector.TrainDataReader {
     private RecyclerView recyclerView;
-    private TrainAdapter adapter;
 
-    private ModesDatabase database;
+    private DatabaseConnector connector;
+
+    private static TrainAdapter adapter;
+    private static ModesDatabase database;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -31,10 +34,13 @@ public class TrainListFragment extends Fragment implements TrainClickListener {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_train_list, container, false);
 
+        DatabaseConnector.initialize(getActivity());
+        connector = DatabaseConnector.getInstance();
+
         database = Room.databaseBuilder(
                 getActivity().getApplicationContext(),
                 ModesDatabase.class,
-                "shopping-list"
+                "modesDatabase"
         ).build();
 
         //initDatabase();
@@ -46,17 +52,20 @@ public class TrainListFragment extends Fragment implements TrainClickListener {
         Train taurus = new Train();
         taurus.modesId=12l;
         taurus.name="Taurus";
-        onTrainCreated(taurus);
+        connector.createTrain(taurus);
+        //onTrainCreated(taurus);
     }
 
     private void initRecyclerView(View view) {
         recyclerView = view.findViewById(R.id.TrainListRecyclerView);
         adapter = new TrainAdapter(this);
-        loadItemsInBackground();
+        connector.loadTrains(this);
+        //loadItemsInBackground();
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(adapter);
     }
 
+    /*@Deprecated
     private void loadItemsInBackground() {
         new AsyncTask<Void, Void, List<Train>>() {
 
@@ -70,14 +79,14 @@ public class TrainListFragment extends Fragment implements TrainClickListener {
                 adapter.update(trains);
             }
         }.execute();
-    }
+    }*/
 
     @Override
     public void onItemChanged(Train train) {
 
     }
-
-    public void onTrainCreated(final Train newTrain) {
+    /*@Deprecated
+    public static void onTrainCreated(final Train newTrain) {
         new AsyncTask<Void, Void, Train>() {
 
             @Override
@@ -91,9 +100,13 @@ public class TrainListFragment extends Fragment implements TrainClickListener {
                 adapter.addItem(train);
             }
         }.execute();
+    }*/
+    @Override
+    public void getTrainData(List<Train> trains) {
+        adapter.update(trains);
     }
 
-    private static class TrainAdapter
+    public static class TrainAdapter
             extends RecyclerView.Adapter<TrainAdapter.TrainViewHolder> {
 
         private final List<Train> trains;
@@ -118,8 +131,8 @@ public class TrainListFragment extends Fragment implements TrainClickListener {
         public void onBindViewHolder(@NonNull TrainViewHolder holder, int position) {
             Train item = trains.get(position);
             holder.nameTextView.setText(item.name);
-            holder.descriptionTextView.setText("TODO");
-            holder.categoryTextView.setText("hello");
+            holder.idTextView.setText(Long.toString(item.modesId));
+            holder.statusTextView.setText("Disconnected");
 
             holder.item = item;
         }
@@ -133,16 +146,16 @@ public class TrainListFragment extends Fragment implements TrainClickListener {
         class TrainViewHolder extends RecyclerView.ViewHolder {
 
             TextView nameTextView;
-            TextView descriptionTextView;
-            TextView categoryTextView;
+            TextView idTextView;
+            TextView statusTextView;
 
             Train item;
 
             TrainViewHolder(View itemView) {
                 super(itemView);
                 nameTextView = itemView.findViewById(R.id.TrainNameTextView);
-                descriptionTextView = itemView.findViewById(R.id.TrainDescriptionTextView);
-                categoryTextView = itemView.findViewById(R.id.TrainCategoryTextView);
+                idTextView = itemView.findViewById(R.id.TrainIdTextView);
+                statusTextView = itemView.findViewById(R.id.TrainStatusTextView);
             }
         }
         public void addItem(Train item) {

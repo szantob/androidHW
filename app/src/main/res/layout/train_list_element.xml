@@ -10,6 +10,25 @@
     android:paddingTop="8dp">
 
     <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Name:" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="ID:" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Status:" />
+    </LinearLayout>
+
+    <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="8dp"
@@ -20,25 +39,20 @@
             android:id="@+id/TrainNameTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            tools:text="Apple" />
+            tools:text="Taurus" />
 
         <TextView
-            android:id="@+id/TrainDescriptionTextView"
+            android:id="@+id/TrainIdTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            tools:text="My favorite fruit" />
+            tools:text="03" />
 
         <TextView
-            android:id="@+id/TrainCategoryTextView"
+            android:id="@+id/TrainStatusTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            tools:text="Food" />
+            tools:text="Disconnected" />
 
-        <TextView
-            android:id="@+id/TrainPriceTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            tools:text="20 Ft" />
     </LinearLayout>
 
 </LinearLayout>

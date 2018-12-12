@@ -49,13 +49,13 @@ public class SettingsActivity extends AppCompatActivity {
         saveAndConnectButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mqttSaveAndConnect();
+                mqttSaveAndConnect(view);
             }
         });
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                settingsSave();
+                settingsSave(view);
             }
         });
         initializeSettings();
@@ -76,15 +76,17 @@ public class SettingsActivity extends AppCompatActivity {
         pubNameEditText.setText(sharedPref.getString(getString(R.string.MQTTPubName), pubNameDefaultValue));
     }
 
-    private void mqttSaveAndConnect(){
+    private void mqttSaveAndConnect(View view){
         SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
         editor.putString(getString(R.string.MQTTServer), serverEditText.getText().toString());
         editor.putString(getString(R.string.MQTTPort), portEditText.getText().toString());
         editor.apply();
+        Snackbar.make(view, R.string.snackbar_SaveServerSettings, Snackbar.LENGTH_LONG)
+                .setAction(R.string.action, null).show();
 
     }
-    private void settingsSave(){
+    private void settingsSave(View view){
         SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
         editor.putString(getString(R.string.MQTTServer), serverEditText.getText().toString());
@@ -93,5 +95,7 @@ public class SettingsActivity extends AppCompatActivity {
         editor.putString(getString(R.string.MQTTPubTpoic), pubTopicEditText.getText().toString());
         editor.putString(getString(R.string.MQTTPubName), pubNameEditText.getText().toString());
         editor.apply();
+        Snackbar.make(view, R.string.snackbar_SaveSettings, Snackbar.LENGTH_LONG)
+                .setAction(R.string.action, null).show();
     }
 }
