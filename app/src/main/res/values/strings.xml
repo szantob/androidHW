@@ -10,4 +10,18 @@
     <string name="mqtt_settings">MQTT Settings</string>
     <string name="server">Server:</string>
     <string name="port">Port:</string>
+    <string name="server_input_placeholder">server</string>
+    <string name="port_input_placeholder">port</string>
+    <string name="save_and_connect">Save and connect</string>
+    <string name="subscriber_topic">Subscriber Topic:</string>
+    <string name="topic_name">topic name</string>
+    <string name="publisher_topic">Publisher Topic:</string>
+    <string name="publisher_name">Publisher Name:</string>
+    <string name="name">name</string>
+    <string name="save">Save</string>
+    <string name="MQTTServer">MQTTServer</string>
+    <string name="MQTTPort">MQTTPort</string>
+    <string name="MQTTSubTpoic">MQTTSubTpoic</string>
+    <string name="MQTTPubTpoic">MQTTPubTpoic</string>
+    <string name="MQTTPubName">MQTTPubName</string>
 </resources>
