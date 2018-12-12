@@ -37,7 +37,7 @@ public class TrainListFragment extends Fragment implements TrainClickListener {
                 "shopping-list"
         ).build();
 
-        initDatabase();
+        //initDatabase();
         initRecyclerView(view);
         return view;
     }

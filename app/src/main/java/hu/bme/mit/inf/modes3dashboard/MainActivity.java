@@ -1,5 +1,6 @@
 package hu.bme.mit.inf.modes3dashboard;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
@@ -43,10 +44,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void onFABPressed(){
-        if(mPager.getCurrentItem()==0){
-            mPager.setCurrentItem(1);
-        }else
-            mPager.setCurrentItem(0);
+        Intent intent = new Intent(MainActivity.this, RedButtonActivity.class);
+        startActivity(intent);
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -58,7 +57,8 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_settings) {
-            return true;
+            Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
+            startActivity(intent);
         }
 
         return super.onOptionsItemSelected(item);
