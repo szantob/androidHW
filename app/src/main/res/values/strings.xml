@@ -37,4 +37,18 @@
     <string name="trains">Trains</string>
     <string name="sections">Sections</string>
     <string name="turnouts">Turnouts</string>
+    <string name="emergency_shutdown">Emergency Shutdown</string>
+    <string name="stop_all_trains">Stop all trains</string>
+    <string name="stop_all_segments">Stop all segments</string>
+    <string name="emergency_train_stop">Stop all trains</string>
+    <string name="emergency_segment_stop">Stop all segments</string>
+    <string name="logcat_MQTT_Connector">MQTTConnector</string>
+    <string name="topic_data_set">Topic data set</string>
+    <string name="connecting_to_mqtt">Connecting to MQTT server</string>
+    <string name="stopping_all_trains">Stopping all trains</string>
+    <string name="stopping_all_segments">Stopping all segments</string>
+    <string name="all_segments_stopped">All segments stopped</string>
+    <string name="all_trains_stopped">All trains stopped</string>
+    <string name="topic_set">Topic set</string>
+    <string name="connected">Connected</string>
 </resources>

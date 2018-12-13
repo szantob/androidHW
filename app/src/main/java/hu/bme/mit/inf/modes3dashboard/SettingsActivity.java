@@ -12,6 +12,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import hu.bme.mit.inf.modes3dashboard.service.MQTTIntentService;
+
 public class SettingsActivity extends AppCompatActivity {
 
     EditText serverEditText;
@@ -79,23 +81,32 @@ public class SettingsActivity extends AppCompatActivity {
     private void mqttSaveAndConnect(View view){
         SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
-        editor.putString(getString(R.string.MQTTServer), serverEditText.getText().toString());
-        editor.putString(getString(R.string.MQTTPort), portEditText.getText().toString());
+        String server = serverEditText.getText().toString();
+        String port =  portEditText.getText().toString();
+        editor.putString(getString(R.string.MQTTServer), server);
+        editor.putString(getString(R.string.MQTTPort), port);
         editor.apply();
         Snackbar.make(view, R.string.snackbar_SaveServerSettings, Snackbar.LENGTH_LONG)
                 .setAction(R.string.action, null).show();
 
+        MQTTIntentService.startActionSetServerAndConnect(this,server,port);
     }
     private void settingsSave(View view){
         SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
         editor.putString(getString(R.string.MQTTServer), serverEditText.getText().toString());
         editor.putString(getString(R.string.MQTTPort), portEditText.getText().toString());
-        editor.putString(getString(R.string.MQTTSubTpoic), subTopicEditText.getText().toString());
-        editor.putString(getString(R.string.MQTTPubTpoic), pubTopicEditText.getText().toString());
-        editor.putString(getString(R.string.MQTTPubName), pubNameEditText.getText().toString());
+        String subTopic = subTopicEditText.getText().toString();
+        String pubTopic = pubTopicEditText.getText().toString();
+        String pubName = pubNameEditText.getText().toString();
+        editor.putString(getString(R.string.MQTTSubTpoic), subTopic);
+        editor.putString(getString(R.string.MQTTPubTpoic), pubTopic);
+        editor.putString(getString(R.string.MQTTPubName), pubName);
         editor.apply();
         Snackbar.make(view, R.string.snackbar_SaveSettings, Snackbar.LENGTH_LONG)
                 .setAction(R.string.action, null).show();
+
+        MQTTIntentService.startActionSetTopicData(this,subTopic,pubTopic,pubName);
     }
+
 }

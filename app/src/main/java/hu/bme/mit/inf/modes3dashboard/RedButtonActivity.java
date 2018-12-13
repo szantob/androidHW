@@ -6,6 +6,9 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.Button;
+
+import hu.bme.mit.inf.modes3dashboard.service.MQTTIntentService;
 
 public class RedButtonActivity extends AppCompatActivity {
 
@@ -21,10 +24,29 @@ public class RedButtonActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 totalShutdown();
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                Snackbar.make(view, R.string.emergency_shutdown, Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
         });
+        Button stopTrainButton = findViewById(R.id.buttonStopTrains);
+        Button stopSegmentButton = findViewById(R.id.buttonStopSegments);
+        stopTrainButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                trainsShutdown();
+                Snackbar.make(view, R.string.emergency_train_stop, Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+            }
+        });
+        stopSegmentButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                segmentsShutdown();
+                Snackbar.make(view, R.string.emergency_segment_stop, Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+            }
+        });
+
     }
 
     private void totalShutdown(){
@@ -32,10 +54,10 @@ public class RedButtonActivity extends AppCompatActivity {
         segmentsShutdown();
     }
     private void trainsShutdown(){
-
+        MQTTIntentService.startActionStopTrains(this);
     }
     private void segmentsShutdown(){
-
+        MQTTIntentService.startActionStopSegments(this);
     }
 
 }
