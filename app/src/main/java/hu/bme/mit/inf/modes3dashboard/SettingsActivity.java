@@ -1,7 +1,9 @@
 package hu.bme.mit.inf.modes3dashboard;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -24,12 +26,20 @@ public class SettingsActivity extends AppCompatActivity {
     EditText pubNameEditText;
     Button saveButton;
 
+    private View layout;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
+        layout = findViewById(R.id.layoutSettings);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        IntentFilter filter = new IntentFilter(MQTTIntentService.BROADCAST_STATE_CHANGED);
+        activityBroadcastReciver reciver = new activityBroadcastReciver();
+        registerReceiver(reciver,filter);
+
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -107,6 +117,40 @@ public class SettingsActivity extends AppCompatActivity {
                 .setAction(R.string.action, null).show();
 
         MQTTIntentService.startActionSetTopicData(this,subTopic,pubTopic,pubName);
+    }
+
+    private class activityBroadcastReciver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            switch (action){
+                default:
+                    return;
+                case MQTTIntentService.BROADCAST_STATE_CHANGED:
+                    onMQTTStateChanged(intent.getIntExtra(MQTTIntentService.STATE,0));
+                    break;
+            }
+        }
+
+        private void onMQTTStateChanged(int i){
+            MQTTIntentService.ConnectionState state = MQTTIntentService.ConnectionState.fromInt(i);
+            switch (state){
+                case UNSET:
+                    break;
+                case CONNECTING:
+                    break;
+                case CONNECTED:
+                    onMQTTConnected();
+                    break;
+                case TOPIC_SET:
+                    break;
+            }
+        }
+    }
+    private void onMQTTConnected(){
+        Snackbar.make(layout,"MQTTConnected", Snackbar.LENGTH_LONG)
+                .setAction("Action", null).show();
     }
 
 }

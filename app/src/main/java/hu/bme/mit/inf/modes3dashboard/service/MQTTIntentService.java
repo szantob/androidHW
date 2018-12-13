@@ -3,7 +3,11 @@ package hu.bme.mit.inf.modes3dashboard.service;
 import android.app.IntentService;
 import android.content.Intent;
 import android.content.Context;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.util.Log;
+
+import java.io.Serializable;
 
 import hu.bme.mit.inf.modes3dashboard.R;
 
@@ -22,7 +26,7 @@ public class MQTTIntentService extends IntentService {
     private static final String ACTION_STOP_TRAINS = "hu.bme.mit.inf.modes3dashboard.service.action.STOP_TRAINS";
     private static final String ACTION_STOP_SEGMENTS = "hu.bme.mit.inf.modes3dashboard.service.action.STOP_SEGMENTS";
 
-    private static final String INTENT_STATE_CHANGED = "hu.bme.mit.inf.modes3dashboard.service.intent.STATE_CHANGED";
+    public static final String BROADCAST_STATE_CHANGED = "hu.bme.mit.inf.modes3dashboard.broadcast.STATE_CHANGED";
 
     // TODO: Rename parameters
     private static final String SERVER = "hu.bme.mit.inf.modes3dashboard.service.extra.SERVER";
@@ -30,6 +34,8 @@ public class MQTTIntentService extends IntentService {
     private static final String SUB_TOPIC = "hu.bme.mit.inf.modes3dashboard.service.extra.SUB_TOPIC";
     private static final String PUB_TOPIC = "hu.bme.mit.inf.modes3dashboard.service.extra.PUB_TOPIC";
     private static final String PUB_NAME = "hu.bme.mit.inf.modes3dashboard.service.extra.PUB_NAME";
+
+    public static final String STATE = "hu.bme.mit.inf.modes3dashboard.service.extra.STATE";
 
     private static String server = null;
     private static String port = null;
@@ -121,6 +127,7 @@ public class MQTTIntentService extends IntentService {
             e.printStackTrace();
         }
         Log.i(getString(R.string.logcat_MQTT_Connector),getString(R.string.connected));
+        changeConnectionState(ConnectionState.CONNECTED);
     }
     private void stopTrains(){
         Log.i(getString(R.string.logcat_MQTT_Connector),getString(R.string.stopping_all_trains));
@@ -143,15 +150,44 @@ public class MQTTIntentService extends IntentService {
 
     private void changeConnectionState(ConnectionState to){
         state = to;
-        //TODO Intent
+        Intent intent = new Intent();
+        intent.setAction(BROADCAST_STATE_CHANGED);
+        intent.putExtra(STATE,state.toInt());
+        sendBroadcast(intent);
     }
 
 
-    enum ConnectionState{
+    public enum ConnectionState{
         UNSET,
         CONNECTING,
         CONNECTED,
-        TOPIC_SET,
+        TOPIC_SET;
 
+        public int toInt(){
+            switch (this){
+                default:
+                case UNSET:
+                    return 0;
+                case CONNECTING:
+                    return 1;
+                case CONNECTED:
+                    return 2;
+                case TOPIC_SET:
+                    return 3;
+            }
+        }
+        public static ConnectionState fromInt(int i){
+            switch (i){
+                default:
+                case 0:
+                    return UNSET;
+                case 1:
+                    return CONNECTING;
+                case 2:
+                    return CONNECTED;
+                case 3:
+                    return TOPIC_SET;
+            }
+        }
     }
 }

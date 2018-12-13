@@ -1,5 +1,8 @@
 package hu.bme.mit.inf.modes3dashboard;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -10,11 +13,16 @@ import android.widget.Button;
 
 import hu.bme.mit.inf.modes3dashboard.service.MQTTIntentService;
 
-public class RedButtonActivity extends AppCompatActivity {
+import static hu.bme.mit.inf.modes3dashboard.service.MQTTIntentService.ConnectionState.UNSET;
 
+public class RedButtonActivity extends AppCompatActivity {
+    private View layout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        layout = findViewById(R.id.layoutRedButton);
+
         setContentView(R.layout.activity_red_button);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -58,6 +66,39 @@ public class RedButtonActivity extends AppCompatActivity {
     }
     private void segmentsShutdown(){
         MQTTIntentService.startActionStopSegments(this);
+    }
+
+    private class activityBroadcastReciver extends BroadcastReceiver{
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            switch (action){
+                default:
+                    return;
+                case MQTTIntentService.BROADCAST_STATE_CHANGED:
+                    onMQTTStateChanged(intent.getIntExtra(MQTTIntentService.STATE,0));
+                    break;
+            }
+        }
+
+        private void onMQTTStateChanged(int i){
+            MQTTIntentService.ConnectionState state = MQTTIntentService.ConnectionState.fromInt(i);
+            switch (state){
+                case UNSET:
+                    break;
+                case CONNECTING:
+                    break;
+                case CONNECTED:
+                    break;
+                case TOPIC_SET:
+                    break;
+            }
+        }
+    }
+    private void onMQTTConnected(){
+        Snackbar.make(layout,"MQTTConnected", Snackbar.LENGTH_LONG)
+                .setAction("Action", null).show();
     }
 
 }
